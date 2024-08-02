@@ -1,15 +1,17 @@
+let user, fullName, imageSrc;
+let nameElement = document.createElement('h2');
+let imageElement = document.createElement('img');
+
 fetch('https://randomuser.me/api/')
   .then(response => response.json())
   .then(data => {
-    let user = data.results[0];
-    let fullName = user.name.first + ' ' + user.name.last;
-    let imageSrc = user.picture.large;
+    user = data.results[0];
+    fullName = user.name.first + ' ' + user.name.last;
+    imageSrc = user.picture.large;
 
-    let nameElement = document.createElement('h2');
     nameElement.textContent = fullName;
     document.body.appendChild(nameElement);
 
-    let imageElement = document.createElement('img');
     imageElement.src = imageSrc;
     document.body.appendChild(imageElement);
   });
@@ -43,4 +45,24 @@ emailButton.addEventListener('click', () => {
 
 phoneButton.addEventListener('click', () => {
   infoSection.textContent = user.phone;
+});
+
+let getUserButton = document.createElement('button');
+getUserButton.textContent = 'Get New User';
+getUserButton.id = 'getUser';
+document.body.appendChild(getUserButton);
+
+getUserButton.addEventListener('click', () => {
+  fetch('https://randomuser.me/api/')
+    .then(response => response.json())
+    .then(data => {
+      user = data.results[0];
+      fullName = user.name.first + ' ' + user.name.last;
+      imageSrc = user.picture.large;
+
+      nameElement.textContent = fullName;
+      imageElement.src = imageSrc;
+
+      infoSection.textContent = ''; // clear the additional info section
+    });
 });
